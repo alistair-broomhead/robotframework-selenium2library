@@ -463,12 +463,15 @@ class _BrowserManagementKeywords(KeywordGroup):
         desired_cap = self._create_desired_capabilities(capabilities_type , desired_capabilities)
         return webdriver.Remote(desired_capabilities=desired_cap , command_executor=str(remote_url) ,                                       browser_profile=profile)
 
-
-    def _create_desired_capabilities(self, capabilities_type, capabilities_string):
-        desired_capabilities = capabilities_type
-        if capabilities_string:
+    def _create_desired_capabilities(self,
+                                     capabilities_type,
+                                     capabilities_string):
+        if isinstance(capabilities_string, dict):
+            capabilities_type.update(capabilities_string)
+        elif isinstance(capabilities_string, basestring) and \
+                capabilities_string:
             for cap in capabilities_string.split(","):
-                (key, value) = cap.split(":")
-                desired_capabilities[key.strip()] = value.strip()
-        return desired_capabilities
-    
+                value = cap.split(":")
+                (key, value) = value[0], ":".join(value[1:])
+                capabilities_type[key.strip()] = value.strip()
+        return capabilities_type
