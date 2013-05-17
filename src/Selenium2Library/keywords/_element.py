@@ -81,7 +81,7 @@ class _ElementKeywords(KeywordGroup):
         """
         self._page_should_contain_element(locator, None, message, loglevel)
 
-    def page_should_not_contain(self, text, loglevel='INFO'):
+    def page_should_not_contain(self, text, loglevel='DEBUG'):
         """Verifies the current page does not contain `text`.
 
         See `Page Should Contain ` for explanation about `loglevel` argument.
