@@ -41,8 +41,12 @@ class _BrowserManagementKeywords(KeywordGroup):
         This keyword should be used in test or suite teardown to make sure
         all browsers are closed.
         """
-        self._debug('Closing all browsers')
-        self._cache.close_all()
+        from selenium.common.exceptions import WebDriverException
+        try:
+            self._debug('Closing all browsers')
+            self._cache.close_all()
+        except WebDriverException, e:
+            logger.warn("Could not close all browsers: %r" % e)
 
     def close_browser(self):
         """Closes the current browser."""
