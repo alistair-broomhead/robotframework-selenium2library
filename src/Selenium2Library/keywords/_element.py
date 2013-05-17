@@ -236,6 +236,16 @@ class _ElementKeywords(KeywordGroup):
         """
         return self._get_text(locator)
 
+    def get_html(self, id=None):
+        """
+        Get the current document as an XML accessor object.
+        """
+
+        src = self.get_source().encode('ascii', 'xmlcharrefreplace')
+        page = html.fromstring(src)
+        element = page.get_element_by_id(id) if id is not None else page
+        return html.tostring(element)
+
     def get_vertical_position(self, locator):
         """Returns vertical position of element identified by `locator`.
 
